@@ -19,8 +19,14 @@ With any of the recipes used, one must first clone this repository into either:
 
 Cloning command:
 ```bash
-git clone git@github.com:paulscherrerinstitute/tomorec.git
+git clone https://github.com/jasonbrudvik/tomorec.git --branch tomorec-kernel-creeation
 ```
+
+If in a JupyterLab session,
+open a terminal from the uppper left hand menu "File > New > Terminal",
+navigate to a place where you want to keep this repository, and then
+execute the above git command.
+
 
 # CREATE TOMOREC KERNEL
 
@@ -139,7 +145,7 @@ dirname = '/data/staff/kits/jasbru/expands-tomorec/'
 foutname = dirname + 'hdf5-conversion/h11913_4_3.h5'
 ```
 
-The other two path name variable can most likely be left as they are:
+The other two path name variables can most likely be left as they are:
 ```bash
 doipath = 'doi2.psi.ch/datasets/sls/X02DA/Data10/e17068/disk1/h11913_4_3_/tif/'
 fname = dirname + doipath + 'h11913_4_3_'
@@ -157,6 +163,7 @@ an HDF5 file that's around 15 GB:
 /data/staff/kits/jasbru/expands-tomorec/hdf5-conversion/
 └── h11913_4_3.h5
 ```
+Ignore any warnings concerning depreceated numpy syntax.
 
 
 # RUN ANALYSIS NOTEBOOK
@@ -166,8 +173,8 @@ repository and double click on the notebook:
 jupyter-notebooks/tomorec_lungs.ipynb
 ```
 
-You will need to edit the notebook so that the correct location of the
-data files and final output image is used, for example:
+You will need to edit the notebook so that the correct locations of the
+data file and final output image are used, for example:
 ```bash
 site_data_dir = '/data/staff/kits/jasbru/expands-tomorec/'
 input_data_file = site_data_dir + 'hdf5-conversion/h11913_4_3.h5'
@@ -175,9 +182,12 @@ output_image_file = site_data_dir + 'analysis-output/gridrec_alpha15e-5.tiff'
 ```
 
 As done previously with the proj2h5.ipynb notebook, select the "Tomorec Kernel"
-and then "Run > Run All Cells."
+and then "Run > Run All Cells."  The analysis currently requires a large
+amount of memory, if it is too much for the computer you are using, the
+analysis will fail.
 
-If everything went well, you will see a figure in the end that looks like this:
+If everything went well, after 5 to 10 minnutes (depending on computing
+resources available) you will see a figure in the end that looks like this:
 
 ![final-figure](screenshots/final-figure.png)
 
