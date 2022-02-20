@@ -6,16 +6,16 @@ Juptyer notebook.
 
 The recipes described here are:
 1. Creation of Tomorec kernel using an existing JupyterHub installation
-2. Creation of a docker image localy which contains JupyterLab and a Tomorec
+2. Creation of a docker image locally which contains JupyterLab and a Tomorec
    kernel, which can then be run on ones own computer
 
 
 # CLONE THIS REPOSITORY
-With any of the recipes used, one must first clone this repository:
-1. Into a running JuptyerLab session on a JupyterHub service if you have access
-   to one
-2. Or on to you own computer in a terminal if you do not have access to a
-   JuptyerHub service or want to run it locally
+With any of the recipes used, one must first clone this repository into either:
+* Into a running JuptyerLab session on a JupyterHub service if you have access
+  to one
+* Or on to you own computer in a terminal if you do not have access to a
+  JuptyerHub service or want to run it locally
 
 Cloning command:
 ```bash
@@ -49,10 +49,10 @@ conda env list
    The environment should appear in your list of available environments,
    similar to:
 ```bash
-    tomorec-kernel-environment     /home/jasbru/.conda/envs/tomorec-kernel-environment
+tomorec-kernel-environment     /home/jasbru/.conda/envs/tomorec-kernel-environment
 ```
 
-4. Create the Jupyter kernel from the conda environment just created:
+4. Create the Tomorec Jupyter kernel:
 ```bash
 source activate tomorec-kernel-environment
 python -m ipykernel install --user --name tomorec-kernel --display-name "Tomorec Kernel"
@@ -78,6 +78,8 @@ your own docker image which contains:
 * JupyterLab
 * Tomorec kernel
 * Tomorec notebook
+
+***TODO: Write This Section***
 
 
 # GET TOMOREC DATA
@@ -157,7 +159,7 @@ an HDF5 file that's around 15 GB:
 ```
 
 
-# RUN NOTEBOOK
+# RUN ANALYSIS NOTEBOOK
 In the JupyterLab file browser, navigate to where you have cloned this
 repository and double click on the notebook:
 ```bash
