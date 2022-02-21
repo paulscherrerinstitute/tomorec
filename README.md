@@ -42,8 +42,8 @@ cd tomorec/
 
 2. Create the Tomorec conda environment:
 ```bash
-source activate base
-conda env create --file jupyter-kernel/tomorec-kernel-environment.yml
+conda env create --file jupyter-kernel/tomorec-kernel-environment.yml \
+    --prefix ~/.conda/envs/tomorec-kernel-environment
 ```
 
 3. After conda environment creation step is done, check that your conda
@@ -55,7 +55,7 @@ conda env list
    The environment should appear in your list of available environments,
    similar to:
 ```bash
-tomorec-kernel-environment     /home/jasbru/.conda/envs/tomorec-kernel-environment
+tomorec-kernel-environment   /home/jasbru/.conda/envs/tomorec-kernel-environment
 ```
 
 4. Create the Tomorec Jupyter kernel:
@@ -75,6 +75,9 @@ Among the kernels available, you should see something like this:
 ```bash
 tomorec-kernel /home/jasbru/.local/share/jupyter/kernels/tomorec-kernel
 ```
+
+It may take a couple minutes until the kernel is available in the "Launcher"
+or from the kernel selction menu in notebooks.
 
 
 # BUILD DOCKER IMAGE
