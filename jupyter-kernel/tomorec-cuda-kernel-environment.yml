@@ -1,0 +1,34 @@
+---
+name: tomorec-cuda-kernel-environment
+channels:
+    # For most modules
+    - conda-forge
+    # For astra-toolbox:
+    - astra-toolbox
+    - astra-toolbox/label/dev
+    # For sirtfilter:
+    - http://dmpelt.gitlab.io/sirtfilter/
+    - defaults
+dependencies:
+    # standard notebook modules
+    - python==3.7.6
+    - ipykernel==5.2.1
+    - ipython_genutils=0.2.0
+    # tomorec module requirements
+    - tomopy==1.9.1=cuda10.1py37h1cf79ac_0
+    - dxchange==0.1.5
+    - astra-toolbox==1.9.9.dev4
+    - sirtfilter==v1.1.0
+    # cudatoolkit (requred by cupy) must match the host
+    - cudatoolkit==10.1.243
+    - cupy==7.5.0
+    - swig==4.0.2
+    - blas==2.16
+    # lprec installation
+    - scikit-build==0.11.1
+    - cmake<3.14.3
+    # modules installed via pip
+    - git==2.29.2
+    - pip==20.1.1
+    - pip:
+          - git+https://github.com/nikitinvv/lprec.git
