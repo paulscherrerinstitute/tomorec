@@ -9,6 +9,8 @@ The recipes described here are:
 2. Creation of a docker image locally which contains JupyterLab and a Tomorec
    kernel, which can then be run on ones own computer
 
+![lungs-notebook](screenshots/lungs-notebook.png)
+
 
 # CLONE THIS REPOSITORY
 With any of the recipes used, one must first clone this repository into either:
@@ -22,10 +24,9 @@ Cloning command:
 git clone https://github.com/jasonbrudvik/tomorec.git --branch tomorec-kernel-creeation
 ```
 
-If in a JupyterLab session,
-open a terminal from the uppper left hand menu "File > New > Terminal",
-navigate to a place where you want to keep this repository, and then
-execute the above git command.
+If in a JupyterLab session, open a terminal from the uppper left hand menu
+"File > New > Terminal", navigate to a place where you want to keep this
+repository, and then execute the above git command.
 
 
 # CREATE TOMOREC KERNEL
@@ -77,10 +78,10 @@ tomorec-kernel /home/jasbru/.local/share/jupyter/kernels/tomorec-kernel
 ```
 
 It may take a couple minutes until the kernel is available in the "Launcher"
-or from the kernel selction menu in notebooks.
+or from the kernel selection menu in notebooks.
 
 
-# BUILD DOCKER IMAGE
+# CREATE DOCKER IMAGE
 
 If you do not have a JupyterHub instance available, then you can build
 your own docker image which contains:
