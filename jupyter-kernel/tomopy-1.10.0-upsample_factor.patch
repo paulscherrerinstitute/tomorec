@@ -1,0 +1,33 @@
+From f318814fd3020dea618b186337d2b44f28a7941f Mon Sep 17 00:00:00 2001
+From: Doga Gursoy <sparsedata@gmail.com>
+Date: Wed, 29 Sep 2021 11:23:36 -0500
+Subject: [PATCH] Convert upsample_factor from positional to key argument
+
+This is to overcome the error:
+TypeError: phase_cross_correlation() takes 2 positional arguments but 3 were given
+---
+ source/tomopy/prep/alignment.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/source/tomopy/prep/alignment.py b/source/tomopy/prep/alignment.py
+index cc39c67a..edd0f0ab 100644
+--- a/source/tomopy/prep/alignment.py
++++ b/source/tomopy/prep/alignment.py
+@@ -190,7 +190,7 @@ def align_seq(
+ 
+             # Register current projection in sub-pixel precision
+             shift, error, diffphase = phase_cross_correlation(
+-                    _prj[m], _sim[m], upsample_factor)
++                    _prj[m], _sim[m], upsample_factor=upsample_factor)
+             err[m] = np.sqrt(shift[0]*shift[0] + shift[1]*shift[1])
+             sx[m] += shift[0]
+             sy[m] += shift[1]
+@@ -329,7 +329,7 @@ def align_joint(
+ 
+             # Register current projection in sub-pixel precision
+             shift, error, diffphase = phase_cross_correlation(
+-                    _prj[m], _sim[m], upsample_factor)
++                    _prj[m], _sim[m], upsample_factor=upsample_factor)
+             err[m] = np.sqrt(shift[0]*shift[0] + shift[1]*shift[1])
+             sx[m] += shift[0]
+             sy[m] += shift[1]
