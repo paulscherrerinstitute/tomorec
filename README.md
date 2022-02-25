@@ -40,7 +40,8 @@ otherwise open locally), navigate to where you wish to store the data, and
 then fetch the data with wget.
 
 The simplest is probably to download the data into the data/ folder that exists
-already in thís repository:
+already in thís repository, as the included Juptyer notebooks are by default
+setup to use that folder:
 ```bash
 cd tomorec/data/
 wget -m -np https://doi2.psi.ch/datasets/sls/X02DA/Data10/e17068/disk1/h11913_4_3_/tif
@@ -126,15 +127,16 @@ the procedure for building the Tomorec docker image.
 
 The images here are based on the official
 [Juptyer Docker Images](https://github.com/jupyter/docker-stacks), and have
-been modified slightly so that when saving file within a running docker
-container, the files saved on your laptop will have the correct permissions.
+been modified slightly so that when saving files within a running docker
+container, the files will be saved on to your laptop will have the correct
+permissions.
 
 First, build the base-notebook image:
 ```bash
 make build-base-notebook
 ```
 
-And then build the tomorec-notebook, which based upon the base-notebook that
+And then build the tomorec-notebook, which is based upon the base-notebook that
 you just created:
 ```bash
 make build-tomorec-notebook
@@ -148,12 +150,12 @@ make run-tomorec-image
 In the output in the terminal from running the above command you will see
 a number of urls, like in this screenshot:
 
-[docker-run-terminal-output](screenshots/docker-run-terminal-output.png)
+![docker-run-terminal-output](screenshots/docker-run-terminal-output.png)
 
 Copy that url and place into a web browser, then your JupyterLab session
 should be visible:
 
-[docker-jupyter-lab-browser](screenshots/docker-jupyter-lab-browser.png)
+![docker-jupyter-lab-browser](screenshots/docker-jupyter-lab-browser.png)
 
 
 # CONVERT DATA TO HDF5
@@ -161,9 +163,10 @@ The data you downloaded in an earlier step will be .tif images files.  These
 will need to be converted to the HDF5 file format in order to be used in the
 included Tomorec analysis notebook.
 
-In the JupyterLab file browser, navigate to where you have cloned this
-repository and double click on the notebook for converting the .tif files to a
-single HDF5 file included in this repository:
+In the JupyterLab file browser (either running via JuptyerHub or your own
+docker image), navigate to where you have cloned this repository and double
+click on the notebook for converting the .tif files to a single HDF5 file
+included in this repository:
 ```bash
 jupyter-notebooks/proj2h5.ipynb
 ```
@@ -174,9 +177,11 @@ Click on the "Switch Kernel" button in the upper right hand corner of the
 notebook, and select the "Tomorec Kernel" in the menu that appears.
 
 
-Change the following directory names to match what you have:
+Change the following directory names to match what you have, or leave them
+as they are if you downloaded the data into the data/ direcotry in this
+repository:
 ```bash
-dirname = '/data/staff/kits/jasbru/expands-tomorec/'
+dirname = '../data/'
 foutname = dirname + 'hdf5-conversion/h11913_4_3.h5'
 ```
 
@@ -195,7 +200,7 @@ automatically.
 It should take less than 10 minutes to complete, and in the end you should have
 an HDF5 file that's around 15 GB:
 ```bash
-/data/staff/kits/jasbru/expands-tomorec/hdf5-conversion/
+tomorec/data/hdf5-conversion/
 └── h11913_4_3.h5
 ```
 Ignore any warnings concerning depreceated numpy syntax.
@@ -211,7 +216,7 @@ jupyter-notebooks/tomorec_lungs.ipynb
 You will need to edit the notebook so that the correct locations of the
 data file and final output image are used, for example:
 ```bash
-site_data_dir = '/data/staff/kits/jasbru/expands-tomorec/'
+site_data_dir = '../data/'
 input_data_file = site_data_dir + 'hdf5-conversion/h11913_4_3.h5'
 output_image_file = site_data_dir + 'analysis-output/gridrec_alpha15e-5.tiff'
 ```
@@ -229,7 +234,7 @@ resources available) you will see a figure in the end that looks like this:
 This final figure will be saved as a tiff file in the specifed location, which
 in the above example was:
 ```bash
-/data/staff/kits/jasbru/expands-tomorec/
+tomorec/data/
 └── analysis-output/gridrec_alpha15e-5.tiff
 ```
 
