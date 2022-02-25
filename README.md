@@ -39,11 +39,10 @@ Open a terminal (in the JupyterLab session if that is what you are using,
 otherwise open locally), navigate to where you wish to store the data, and
 then fetch the data with wget.
 
-In this example, a directory is created on a shared storage server, and the
-data is fetched into that directory:
+The simplest is probably to download the data into the data/ folder that exists
+already in thís repository:
 ```bash
-mkdir /data/staff/kits/jasbru/expands-tomorec/
-cd /data/staff/kits/jasbru/expands-tomorec/
+cd tomorec/data/
 wget -m -np https://doi2.psi.ch/datasets/sls/X02DA/Data10/e17068/disk1/h11913_4_3_/tif
 ```
 
@@ -112,12 +111,13 @@ docker, then you can build your own docker image which contains:
 * JupyterLab
 * Tomorec kernel
 * Tomorec notebook
+Then you will be able to run JupyterLab on your laptop.
+
 
 ## INSTALL DOCKER
 Docker will be needed for this step, so install it if you need to:
 
 [Get Docker](https://docs.docker.com/get-docker/)
-
 
 
 ## BUILD IMAGE
@@ -140,32 +140,26 @@ you just created:
 make build-tomorec-notebook
 ```
 
+Now start the docker container with this image:
 ```bash
-
+make run-tomorec-image
 ```
 
-```bash
+In the output in the terminal from running the above command you will see
+a number of urls, like in this screenshot:
 
-```
+[docker-run-terminal-output](screenshots/docker-run-terminal-output.png)
+
+Copy that url and place into a web browser, then your JupyterLab session
+should be visible:
+
+[docker-jupyter-lab-browser](screenshots/docker-jupyter-lab-browser.png)
 
 
-
-
-
-# GET TOMOREC DATA
-
-
-## CONVERT DATA TO HDF5
-The downloaded data will be in .tif images files.  These will need to be
-converted to the HDF5 file format in order to be used in the included Tomorec
-analysis notebook.
-
-First create an output folder into which the resulting HDF5 file will be
-placed, for this example, it's done here:
-```bash
-cd /data/staff/kits/jasbru/expands-tomorec/
-mkdir hdf5-conversion
-```
+# CONVERT DATA TO HDF5
+The data you downloaded in an earlier step will be .tif images files.  These
+will need to be converted to the HDF5 file format in order to be used in the
+included Tomorec analysis notebook.
 
 In the JupyterLab file browser, navigate to where you have cloned this
 repository and double click on the notebook for converting the .tif files to a
