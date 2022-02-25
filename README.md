@@ -29,6 +29,30 @@ If in a JupyterLab session, open a terminal from the uppper left hand menu
 repository, and then execute the above git command.
 
 
+# DOWNLOAD DATA
+The next item to download is the data. This is taken from the public
+repository:
+
+[data doi url](https://doi.psi.ch/detail/10.16907/d699e1f7-e822-4396-8c64-34ed405f07b7)
+
+Open a terminal (in the JupyterLab session if that is what you are using,
+otherwise open locally), navigate to where you wish to store the data, and
+then fetch the data with wget.
+
+In this example, a directory is created on a shared storage server, and the
+data is fetched into that directory:
+```bash
+mkdir /data/staff/kits/jasbru/expands-tomorec/
+cd /data/staff/kits/jasbru/expands-tomorec/
+wget -m -np https://doi2.psi.ch/datasets/sls/X02DA/Data10/e17068/disk1/h11913_4_3_/tif
+```
+
+This download will take some time as the total size is about 16 GB and there
+are more than 2000 files.  In a recent attempt it took ~6 hours -  though
+connection speeds will vary. If the connection is interrupted, repeat the
+command and only missing files will be downloaded.
+
+
 # CREATE TOMOREC KERNEL
 
 If you already have a JupyterHub instance running into which you can
@@ -83,39 +107,52 @@ or from the kernel selection menu in notebooks.
 
 # CREATE DOCKER IMAGE
 
-If you do not have a JupyterHub instance available, then you can build
-your own docker image which contains:
+If you do not have a JupyterHub instance available, and you enjoy using
+docker, then you can build your own docker image which contains:
 * JupyterLab
 * Tomorec kernel
 * Tomorec notebook
 
-***TODO: Write This Section***
+## INSTALL DOCKER
+Docker will be needed for this step, so install it if you need to:
+
+[Get Docker](https://docs.docker.com/get-docker/)
+
+
+
+## BUILD IMAGE
+A makefile has been included in this repository inorder to simplify somewhat
+the procedure for building the Tomorec docker image.
+
+The images here are based on the official
+[Juptyer Docker Images](https://github.com/jupyter/docker-stacks), and have
+been modified slightly so that when saving file within a running docker
+container, the files saved on your laptop will have the correct permissions.
+
+First, build the base-notebook image:
+```bash
+make build-base-notebook
+```
+
+And then build the tomorec-notebook, which based upon the base-notebook that
+you just created:
+```bash
+make build-tomorec-notebook
+```
+
+```bash
+
+```
+
+```bash
+
+```
+
+
+
 
 
 # GET TOMOREC DATA
-
-## DOWNLOAD DATA
-After you have a Tomorec kernel available (created via one of the two methods
-mentioned above) you can download the data from:
-
-[data doi url](https://doi.psi.ch/detail/10.16907/d699e1f7-e822-4396-8c64-34ed405f07b7)
-
-Open a terminal (in the JupyterLab session if that is what you are using,
-otherwise open locally), navigate to where you wish to store the data, and
-then fetch the data with wget.
-
-In this example, a directory is created on a shared storage server, and the
-data is fetched into that directory:
-```bash
-mkdir /data/staff/kits/jasbru/expands-tomorec/
-cd /data/staff/kits/jasbru/expands-tomorec/
-wget -m -np https://doi2.psi.ch/datasets/sls/X02DA/Data10/e17068/disk1/h11913_4_3_/tif
-```
-
-This download will take some time as the total size is about 16 GB and there
-are more than 2000 files.  In a recent attempt it took ~6 hours -  though
-connection speeds will vary. If the connection is interrupted, repeat the
-command and only missing files will be downloaded.
 
 
 ## CONVERT DATA TO HDF5
