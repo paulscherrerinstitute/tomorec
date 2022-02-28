@@ -1,0 +1,26 @@
+---
+name: tomorec-kernel-environment
+channels:
+    # For most modules
+    - conda-forge
+    # For astra-toolbox:
+    - astra-toolbox
+    - astra-toolbox/label/dev
+    # For sirtfilter:
+    - http://dmpelt.gitlab.io/sirtfilter/
+    - defaults
+dependencies:
+    # standard notebook modules
+    - python==3.7.6
+    - ipykernel==5.2.1
+    - ipython_genutils=0.2.0
+    # tomorec module requirements
+    - tomopy==1.9.1
+    - dxchange==0.1.5
+    - astra-toolbox==1.9.9.dev4
+    - sirtfilter==v1.1.0
+    # plotting utilities - tighter pinning needed
+    - matplotlib==3.2.2
+    - widgetsnbextension==3.5.1
+    - ipywidgets==7.5.1
+    - ipympl==0.5.7
