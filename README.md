@@ -1,4 +1,11 @@
-# TOMOREC
+---
+title: "Tomorec Analysis"
+output:
+  html_document:
+    number_sections: true
+---
+
+# OVERVIEW
 
 This README contains various recipes for installing a Tomorec Jupyter kernel,
 downloading publically available data, and executing a sample analysis
@@ -17,16 +24,17 @@ With any of the recipes used, one must first clone this repository into either:
 * Into a running JuptyerLab session on a JupyterHub service if you have access
   to one
 * Or on to you own computer in a terminal if you do not have access to a
-  JuptyerHub service or want to run it locally
+  JuptyerHub service - you will then run a JupyterLab session locally
 
-Cloning command:
+So, open a terminal as usual if doing this locally, or if in a JupyterLab
+session, open a terminal from the uppper left hand menu
+"File > New > Terminal".
+
+Navigate to a place where you want to keep this repository, and then execute
+the repository cloning command:
 ```bash
 git clone https://github.com/jasonbrudvik/tomorec.git --branch tomorec-kernel-creeation
 ```
-
-If in a JupyterLab session, open a terminal from the uppper left hand menu
-"File > New > Terminal", navigate to a place where you want to keep this
-repository, and then execute the above git command.
 
 
 # DOWNLOAD DATA
@@ -35,10 +43,7 @@ repository:
 
 [data doi url](https://doi.psi.ch/detail/10.16907/d699e1f7-e822-4396-8c64-34ed405f07b7)
 
-Open a terminal (in the JupyterLab session if that is what you are using,
-otherwise open locally), navigate to where you wish to store the data, and
-then fetch the data with wget.
-
+Still using
 The simplest is probably to download the data into the data/ folder that exists
 already in thís repository, as the included Juptyer notebooks are by default
 setup to use that folder:
@@ -48,9 +53,9 @@ wget -m -np https://doi2.psi.ch/datasets/sls/X02DA/Data10/e17068/disk1/h11913_4_
 ```
 
 This download will take some time as the total size is about 16 GB and there
-are more than 2000 files.  In a recent attempt it took ~6 hours -  though
-connection speeds will vary. If the connection is interrupted, repeat the
-command and only missing files will be downloaded.
+are more than 2000 files.  In a recent attempt it took about 50 minutes -
+though connection speeds will vary. If the connection is interrupted, repeat
+the command and only missing files will be downloaded.
 
 
 # CREATE TOMOREC KERNEL
@@ -58,6 +63,9 @@ command and only missing files will be downloaded.
 If you already have a JupyterHub instance running into which you can
 install your own kernel, then here is a recipe for creating a Tomorec kernel
 in which you can run the Tomorec notebook included in this repository.
+
+If not, then go to the next section titled ***CREATE DOCKER IMAGE***
+
 
 1. Open a terminal in your JuptyerLab session (File > New > Terminal) and go
    into the Tomorec repository that you have cloned:
