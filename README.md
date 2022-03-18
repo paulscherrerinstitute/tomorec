@@ -1,11 +1,4 @@
----
-title: "Tomorec Analysis"
-output:
-  html_document:
-    number_sections: true
----
-
-# OVERVIEW
+# TOMOREC ANALYSIS OVERVIEW
 
 This README contains various recipes for installing a Tomorec Jupyter kernel,
 downloading publically available data, and executing a sample analysis
@@ -19,7 +12,7 @@ The recipes described here are:
 ![lungs-notebook](screenshots/lungs-notebook.png)
 
 
-# CLONE THIS REPOSITORY
+# 1 - CLONE THIS REPOSITORY
 With any of the recipes used, one must first clone this repository into either:
 * Into a running JuptyerLab session on a JupyterHub service if you have access
   to one
@@ -37,7 +30,7 @@ git clone https://github.com/jasonbrudvik/tomorec.git --branch tomorec-kernel-cr
 ```
 
 
-# DOWNLOAD DATA
+# 2 - DOWNLOAD DATA
 The next item to download is the data. This is taken from the public
 repository:
 
@@ -58,13 +51,15 @@ though connection speeds will vary. If the connection is interrupted, repeat
 the command and only missing files will be downloaded.
 
 
-# CREATE TOMOREC KERNEL
+# 3 - CREATE TOMOREC KERNEL
 
+## 3.1 - CREATE TOMOREC KERNEL IN JUPYTERHUB SESSION
 If you already have a JupyterHub instance running into which you can
 install your own kernel, then here is a recipe for creating a Tomorec kernel
 in which you can run the Tomorec notebook included in this repository.
 
-If not, then go to the next section titled ***CREATE DOCKER IMAGE***
+If not, then go to the next section titled
+***CREATE TOMOREC KERNEL AND DOCKER IMAGE***
 
 
 1. Open a terminal in your JuptyerLab session (File > New > Terminal) and go
@@ -113,7 +108,7 @@ It may take a couple minutes until the kernel is available in the "Launcher"
 or from the kernel selection menu in notebooks.
 
 
-# CREATE DOCKER IMAGE
+## 3.2 - CREATE TOMOREC KERNEL AND DOCKER IMAGE
 
 If you do not have a JupyterHub instance available, and you enjoy using
 docker, then you can build your own docker image which contains:
@@ -123,13 +118,13 @@ docker, then you can build your own docker image which contains:
 Then you will be able to run JupyterLab on your laptop.
 
 
-## INSTALL DOCKER
+### 3.2.1 - INSTALL DOCKER
 Docker will be needed for this step, so install it if you need to:
 
 [Get Docker](https://docs.docker.com/get-docker/)
 
 
-## BUILD IMAGE
+### 3.2.2 - BUILD DOCKER IMAGE
 A makefile has been included in this repository inorder to simplify somewhat
 the procedure for building the Tomorec docker image.
 
@@ -150,6 +145,7 @@ you just created:
 make build-tomorec-notebook
 ```
 
+### 3.2.3 - RUN JUPYTERLAB LOCALLY
 Now start the docker container with this image:
 ```bash
 make run-tomorec-image
@@ -166,7 +162,7 @@ should be visible:
 ![docker-jupyter-lab-browser](screenshots/docker-jupyter-lab-browser.png)
 
 
-# CONVERT DATA TO HDF5
+# 4 - CONVERT DATA TO HDF5
 The data you downloaded in an earlier step will be .tif images files.  These
 will need to be converted to the HDF5 file format in order to be used in the
 included Tomorec analysis notebook.
@@ -214,7 +210,7 @@ tomorec/data/hdf5-conversion/
 Ignore any warnings concerning depreceated numpy syntax.
 
 
-# RUN ANALYSIS NOTEBOOK
+# 5 - RUN ANALYSIS NOTEBOOK
 In the JupyterLab file browser, navigate to where you have cloned this
 repository and double click on the notebook:
 ```bash
