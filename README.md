@@ -1,39 +1,78 @@
-# TOMOREC
+# TOMOREC ANALYSIS OVERVIEW
 
 This README contains various recipes for installing a Tomorec Jupyter kernel,
 downloading publically available data, and executing a sample analysis
 Juptyer notebook.
 
-The recipes described here are:
-1. Creation of Tomorec kernel using an existing JupyterHub installation
-2. Creation of a docker image locally which contains JupyterLab and a Tomorec
-   kernel, which can then be run on ones own computer
+This can be done with using either a JuptyerHub service, or it can be done
+locally by building a docker image that contains JupyterLab and run on your
+local machine.
+
+The documentation below consists of several sections:
+- [1 - CLONE THIS REPOSITORY](#1---clone-this-repository)
+- [2 - DOWNLOAD DATA](#2---download-data)
+- [3 - CREATE TOMOREC KERNEL](#3---create-tomorec-kernel)
+- [3.1 - CREATE TOMOREC KERNEL IN JUPYTERLAB SESSION](#31---create-tomorec-kernel-in-jupyterlab-session)
+- [3.2 - CREATE TOMOREC KERNEL AND DOCKER IMAGE](#32---create-tomorec-kernel-and-docker-image)
+- [3.2.1 - INSTALL DOCKER](#321---install-docker)
+- [3.2.2 - BUILD DOCKER IMAGE](#322---build-docker-image)
+- [3.2.3 - RUN JUPYTERLAB LOCALLY](#323---run-jupyterlab-locally)
+- [4 - CONVERT DATA TO HDF5](#4---convert-data-to-hdf5)
+- [5 - RUN ANALYSIS NOTEBOOK](#5---run-analysis-notebook)
+
 
 ![lungs-notebook](screenshots/lungs-notebook.png)
 
 
-# CLONE THIS REPOSITORY
-With any of the recipes used, one must first clone this repository into either:
-* Into a running JuptyerLab session on a JupyterHub service if you have access
-  to one
-* Or on to you own computer in a terminal if you do not have access to a
-  JuptyerHub service or want to run it locally
+# 1 - CLONE THIS REPOSITORY
+If you have access to a JupyterHub service, start a JuptyerLab session, then
+open a terminal from the uppper left hand menu "File > New > Terminal".
 
-Cloning command:
+If you do not have access to a JupyterHub service, no problem, you can do
+this locally on your own computer. Open a local terminal.
+
+In the terminal, navigate to a place where you want to keep this repository,
+and then execute the repository cloning command:
 ```bash
-git clone https://github.com/jasonbrudvik/tomorec.git --branch tomorec-kernel-creeation
+git clone https://github.com/paulscherrerinstitute/tomorec.git
 ```
 
-If in a JupyterLab session, open a terminal from the uppper left hand menu
-"File > New > Terminal", navigate to a place where you want to keep this
-repository, and then execute the above git command.
+
+# 2 - DOWNLOAD DATA
+The next item to download is the data. This is taken from the public
+repository:
+
+[data doi url](https://doi.psi.ch/detail/10.16907/d699e1f7-e822-4396-8c64-34ed405f07b7)
+
+The simplest way to do this is probably to download the data into the data/
+folder that exists already in thís repository, as the included Juptyer
+notebooks are by default setup to use that folder:
+```bash
+cd tomorec/data/
+wget -m -np https://doi2.psi.ch/datasets/sls/X02DA/Data10/e17068/disk1/h11913_4_3_/tif
+```
+
+This download will take some time as the total size is about 16 GB and there
+are more than 2000 files.  In a recent attempt it took about 50 minutes -
+though connection speeds will vary. If the connection is interrupted, repeat
+the command and only missing files will be downloaded.
 
 
-# CREATE TOMOREC KERNEL
+# 3 - CREATE TOMOREC KERNEL
+There are two ways to accomplish the creation of the Tomorec analysis kernel:
+* Either create it using conda in a running JuptyerLab session [section 3.1](#31---create-tomorec-kernel-in-jupyterlab-session)
+* Or build a docker iamge that contains JupyterLab and the Tomorec kernel
+  and run this locally [seciotn 3.2](#32---create-tomorec-kernel-and-docker-image)
 
+
+## 3.1 - CREATE TOMOREC KERNEL IN JUPYTERLAB SESSION
 If you already have a JupyterHub instance running into which you can
 install your own kernel, then here is a recipe for creating a Tomorec kernel
 in which you can run the Tomorec notebook included in this repository.
+
+If not, then go to the next section titled
+***CREATE TOMOREC KERNEL AND DOCKER IMAGE***
+
 
 1. Open a terminal in your JuptyerLab session (File > New > Terminal) and go
    into the Tomorec repository that you have cloned:
@@ -81,58 +120,77 @@ It may take a couple minutes until the kernel is available in the "Launcher"
 or from the kernel selection menu in notebooks.
 
 
-# CREATE DOCKER IMAGE
+## 3.2 - CREATE TOMOREC KERNEL AND DOCKER IMAGE
 
-If you do not have a JupyterHub instance available, then you can build
-your own docker image which contains:
+If you do not have a JupyterHub instance available, then you can build and your
+own docker image locally, which contains:
 * JupyterLab
-* Tomorec kernel
-* Tomorec notebook
-
-***TODO: Write This Section***
+* Tomorec analysis kernel
+Then you will be able to run JupyterLab on your laptop.
 
 
-# GET TOMOREC DATA
+### 3.2.1 - INSTALL DOCKER
+Docker will be needed for this step, so install it if you need to:
 
-## DOWNLOAD DATA
-After you have a Tomorec kernel available (created via one of the two methods
-mentioned above) you can download the data from:
+[Get Docker](https://docs.docker.com/get-docker/)
 
-[data doi url](https://doi.psi.ch/detail/10.16907/d699e1f7-e822-4396-8c64-34ed405f07b7)
+Also, add yourself to the docker group, as described here:
 
-Open a terminal (in the JupyterLab session if that is what you are using,
-otherwise open locally), navigate to where you wish to store the data, and
-then fetch the data with wget.
+[Manage Docker as a non-root user](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
 
-In this example, a directory is created on a shared storage server, and the
-data is fetched into that directory:
+
+### 3.2.2 - BUILD DOCKER IMAGE
+A makefile has been included in this repository inorder to simplify somewhat
+the procedure for building the Tomorec docker image.
+
+![makefile-output](screenshots/makefile-output.png)
+
+
+The images here are based on the official
+[Juptyer Docker Images](https://github.com/jupyter/docker-stacks), and have
+been modified slightly so that when saving files within a running docker
+container, the files will be saved on to your laptop will have the correct
+permissions.
+
+First, go into your local copy of the repository and build the base-notebook
+image:
 ```bash
-mkdir /data/staff/kits/jasbru/expands-tomorec/
-cd /data/staff/kits/jasbru/expands-tomorec/
-wget -m -np https://doi2.psi.ch/datasets/sls/X02DA/Data10/e17068/disk1/h11913_4_3_/tif
+cd tomorec/
+make build-base-notebook
 ```
 
-This download will take some time as the total size is about 16 GB and there
-are more than 2000 files.  In a recent attempt it took ~6 hours -  though
-connection speeds will vary. If the connection is interrupted, repeat the
-command and only missing files will be downloaded.
-
-
-## CONVERT DATA TO HDF5
-The downloaded data will be in .tif images files.  These will need to be
-converted to the HDF5 file format in order to be used in the included Tomorec
-analysis notebook.
-
-First create an output folder into which the resulting HDF5 file will be
-placed, for this example, it's done here:
+And then build the tomorec-notebook, which is based upon the base-notebook that
+you just created:
 ```bash
-cd /data/staff/kits/jasbru/expands-tomorec/
-mkdir hdf5-conversion
+make build-tomorec-notebook
 ```
 
-In the JupyterLab file browser, navigate to where you have cloned this
-repository and double click on the notebook for converting the .tif files to a
-single HDF5 file included in this repository:
+### 3.2.3 - RUN JUPYTERLAB LOCALLY
+Now start the docker container with this image:
+```bash
+make run-tomorec-image
+```
+
+In the output in the terminal from running the above command you will see
+a number of urls, like in this screenshot:
+
+![docker-run-terminal-output](screenshots/docker-run-terminal-output.png)
+
+Copy that url and place into a web browser, then your JupyterLab session
+should be visible:
+
+![docker-jupyter-lab-browser](screenshots/docker-jupyter-lab-browser.png)
+
+
+# 4 - CONVERT DATA TO HDF5
+The data you downloaded in an earlier step will be .tif images files.  These
+will need to be converted to the HDF5 file format in order to be used in the
+included Tomorec analysis notebook.
+
+In the JupyterLab file browser (either running via JuptyerHub or your own
+docker image), navigate to where you have cloned this repository and double
+click on the notebook for converting the .tif files to a single HDF5 file
+included in this repository:
 ```bash
 jupyter-notebooks/proj2h5.ipynb
 ```
@@ -143,9 +201,11 @@ Click on the "Switch Kernel" button in the upper right hand corner of the
 notebook, and select the "Tomorec Kernel" in the menu that appears.
 
 
-Change the following directory names to match what you have:
+Change the following directory names to match what you have, or leave them
+as they are if you downloaded the data into the data/ direcotry in this
+repository:
 ```bash
-dirname = '/data/staff/kits/jasbru/expands-tomorec/'
+dirname = '../data/'
 foutname = dirname + 'hdf5-conversion/h11913_4_3.h5'
 ```
 
@@ -161,16 +221,17 @@ automatically.
 
 ![run-all-cells](screenshots/run-all-cells.png)
 
-It should take less than 10 minutes to complete, and in the end you should have
-an HDF5 file that's around 15 GB:
+It should take less than 10 minutes to complete (depending on computing
+resources available), and in the end you should have an HDF5 file that's around
+15 GB:
 ```bash
-/data/staff/kits/jasbru/expands-tomorec/hdf5-conversion/
+tomorec/data/hdf5-conversion/
 └── h11913_4_3.h5
 ```
-Ignore any warnings concerning depreceated numpy syntax.
+Ignore any warnings concerning deprecated numpy syntax.
 
 
-# RUN ANALYSIS NOTEBOOK
+# 5 - RUN ANALYSIS NOTEBOOK
 In the JupyterLab file browser, navigate to where you have cloned this
 repository and double click on the notebook:
 ```bash
@@ -180,7 +241,7 @@ jupyter-notebooks/tomorec_lungs.ipynb
 You will need to edit the notebook so that the correct locations of the
 data file and final output image are used, for example:
 ```bash
-site_data_dir = '/data/staff/kits/jasbru/expands-tomorec/'
+site_data_dir = '../data/'
 input_data_file = site_data_dir + 'hdf5-conversion/h11913_4_3.h5'
 output_image_file = site_data_dir + 'analysis-output/gridrec_alpha15e-5.tiff'
 ```
@@ -190,17 +251,21 @@ and then "Run > Run All Cells."  The analysis currently requires a large
 amount of memory, if it is too much for the computer you are using, the
 analysis will fail.
 
-If everything went well, after 5 to 10 minnutes (depending on computing
-resources available) you will see a figure in the end that looks like this:
+If everything went well, after less than 5 minutes (again, depending on
+computing resources available) you will see a figure in the end that looks like
+this:
 
 ![final-figure](screenshots/final-figure.png)
 
 This final figure will be saved as a tiff file in the specifed location, which
 in the above example was:
 ```bash
-/data/staff/kits/jasbru/expands-tomorec/
+tomorec/data/
 └── analysis-output/gridrec_alpha15e-5.tiff
 ```
+
+If running this analysis script locally via the docker image, this image
+is saved onto your local machine.
 
 Your results may be compared with the original running of this data analysis
 here:
