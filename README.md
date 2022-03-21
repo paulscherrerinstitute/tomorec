@@ -4,37 +4,37 @@ This README contains various recipes for installing a Tomorec Jupyter kernel,
 downloading publically available data, and executing a sample analysis
 Juptyer notebook.
 
-The recipe described here consists of several sections:
-[1 - CLONE THIS REPOSITORY](#1---clone-this-repository)
-[2 - DOWNLOAD DATA](#2---download-data)
-[3 - CREATE TOMOREC KERNEL](#3---create-tomorec-kernel)
-[3.1 - CREATE TOMOREC KERNEL IN JUPYTERLAB SESSION](#31---create-tomorec-kernel-in-jupyterlab-session)
-[3.2 - CREATE TOMOREC KERNEL AND DOCKER IMAGE](#32---create-tomorec-kernel-and-docker-image)
-[3.2.1 - INSTALL DOCKER](#321---install-docker)
-[3.2.2 - BUILD DOCKER IMAGE](#322---build-docker-image)
-[3.2.3 - RUN JUPYTERLAB LOCALLY](#323---run-jupyterlab-locally)
-[4 - CONVERT DATA TO HDF5](#4---convert-data-to-hdf5)
-[5 - RUN ANALYSIS NOTEBOOK](#5---run-analysis-notebook)
+This can be done with using either a JuptyerHub service, or it can be done
+locally by building a docker image that contains JupyterLab and run on your
+local machine.
+
+The documentation below consists of several sections:
+- [1 - CLONE THIS REPOSITORY](#1---clone-this-repository)
+- [2 - DOWNLOAD DATA](#2---download-data)
+- [3 - CREATE TOMOREC KERNEL](#3---create-tomorec-kernel)
+- [3.1 - CREATE TOMOREC KERNEL IN JUPYTERLAB SESSION](#31---create-tomorec-kernel-in-jupyterlab-session)
+- [3.2 - CREATE TOMOREC KERNEL AND DOCKER IMAGE](#32---create-tomorec-kernel-and-docker-image)
+- [3.2.1 - INSTALL DOCKER](#321---install-docker)
+- [3.2.2 - BUILD DOCKER IMAGE](#322---build-docker-image)
+- [3.2.3 - RUN JUPYTERLAB LOCALLY](#323---run-jupyterlab-locally)
+- [4 - CONVERT DATA TO HDF5](#4---convert-data-to-hdf5)
+- [5 - RUN ANALYSIS NOTEBOOK](#5---run-analysis-notebook)
 
 
 ![lungs-notebook](screenshots/lungs-notebook.png)
 
 
 # 1 - CLONE THIS REPOSITORY
-With any of the recipes used, one must first clone this repository into either:
-* Into a running JuptyerLab session on a JupyterHub service if you have access
-  to one
-* Or on to you own computer in a terminal if you do not have access to a
-  JuptyerHub service - you will then run a JupyterLab session locally
+If you have access to a JupyterHub service, open a terminal from the uppper
+left hand menu "File > New > Terminal".
 
-So, open a terminal as usual if doing this locally, or if in a JupyterLab
-session, open a terminal from the uppper left hand menu
-"File > New > Terminal".
+If you do not have access to a JupyterHub service, no problem, you can do
+this locally on your own computer. Open a local terminal.
 
-Navigate to a place where you want to keep this repository, and then execute
-the repository cloning command:
+In the terminal, navigate to a place where you want to keep this repository,
+and then execute the repository cloning command:
 ```bash
-git clone https://github.com/jasonbrudvik/tomorec.git --branch tomorec-kernel-creeation
+git clone https://github.com/paulscherrerinstitute/tomorec.git
 ```
 
 
