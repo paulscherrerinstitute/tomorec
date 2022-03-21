@@ -4,10 +4,18 @@ This README contains various recipes for installing a Tomorec Jupyter kernel,
 downloading publically available data, and executing a sample analysis
 Juptyer notebook.
 
-The recipes described here are:
-1. Creation of Tomorec kernel using an existing JupyterHub installation
-2. Creation of a docker image locally which contains JupyterLab and a Tomorec
-   kernel, which can then be run on ones own computer
+The recipe described here consists of several sections:
+[1 - CLONE THIS REPOSITORY](#1---clone-this-repository)
+[2 - DOWNLOAD DATA](#2---download-data)
+[3 - CREATE TOMOREC KERNEL](#3---create-tomorec-kernel)
+[3.1 - CREATE TOMOREC KERNEL IN JUPYTERLAB SESSION](#31---create-tomorec-kernel-in-jupyterlab-session)
+[3.2 - CREATE TOMOREC KERNEL AND DOCKER IMAGE](#32---create-tomorec-kernel-and-docker-image)
+[3.2.1 - INSTALL DOCKER](#321---install-docker)
+[3.2.2 - BUILD DOCKER IMAGE](#322---build-docker-image)
+[3.2.3 - RUN JUPYTERLAB LOCALLY](#323---run-jupyterlab-locally)
+[4 - CONVERT DATA TO HDF5](#4---convert-data-to-hdf5)
+[5 - RUN ANALYSIS NOTEBOOK](#5---run-analysis-notebook)
+
 
 ![lungs-notebook](screenshots/lungs-notebook.png)
 
@@ -52,8 +60,13 @@ the command and only missing files will be downloaded.
 
 
 # 3 - CREATE TOMOREC KERNEL
+There are two ways to accomplish the creation of the Tomorec analsysis kerel:
+* Either create it using conda in a running JuptyerLab session
+* Or build a docker iamge that contains JupyterLab and the Tomorec kernel
+  and run this locally.
 
-## 3.1 - CREATE TOMOREC KERNEL IN JUPYTERHUB SESSION
+
+## 3.1 - CREATE TOMOREC KERNEL IN JUPYTERLAB SESSION
 If you already have a JupyterHub instance running into which you can
 install your own kernel, then here is a recipe for creating a Tomorec kernel
 in which you can run the Tomorec notebook included in this repository.
@@ -122,6 +135,10 @@ Then you will be able to run JupyterLab on your laptop.
 Docker will be needed for this step, so install it if you need to:
 
 [Get Docker](https://docs.docker.com/get-docker/)
+
+Also, add yourself to the docker group, as described here:
+
+[Manage Docker as a non-root user](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
 
 
 ### 3.2.2 - BUILD DOCKER IMAGE
