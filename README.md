@@ -25,8 +25,8 @@ The documentation below consists of several sections:
 
 
 # 1 - CLONE THIS REPOSITORY
-If you have access to a JupyterHub service, open a terminal from the uppper
-left hand menu "File > New > Terminal".
+If you have access to a JupyterHub service, start a JuptyerLab session, then
+open a terminal from the uppper left hand menu "File > New > Terminal".
 
 If you do not have access to a JupyterHub service, no problem, you can do
 this locally on your own computer. Open a local terminal.
@@ -44,10 +44,9 @@ repository:
 
 [data doi url](https://doi.psi.ch/detail/10.16907/d699e1f7-e822-4396-8c64-34ed405f07b7)
 
-Still using
-The simplest is probably to download the data into the data/ folder that exists
-already in thís repository, as the included Juptyer notebooks are by default
-setup to use that folder:
+The simplest way to do this is probably to download the data into the data/
+folder that exists already in thís repository, as the included Juptyer
+notebooks are by default setup to use that folder:
 ```bash
 cd tomorec/data/
 wget -m -np https://doi2.psi.ch/datasets/sls/X02DA/Data10/e17068/disk1/h11913_4_3_/tif
@@ -60,10 +59,10 @@ the command and only missing files will be downloaded.
 
 
 # 3 - CREATE TOMOREC KERNEL
-There are two ways to accomplish the creation of the Tomorec analsysis kerel:
-* Either create it using conda in a running JuptyerLab session
+There are two ways to accomplish the creation of the Tomorec analysis kernel:
+* Either create it using conda in a running JuptyerLab session [section 3.1](#31---create-tomorec-kernel-in-jupyterlab-session)
 * Or build a docker iamge that contains JupyterLab and the Tomorec kernel
-  and run this locally.
+  and run this locally [seciotn 3.2](#32---create-tomorec-kernel-and-docker-image)
 
 
 ## 3.1 - CREATE TOMOREC KERNEL IN JUPYTERLAB SESSION
@@ -123,11 +122,10 @@ or from the kernel selection menu in notebooks.
 
 ## 3.2 - CREATE TOMOREC KERNEL AND DOCKER IMAGE
 
-If you do not have a JupyterHub instance available, and you enjoy using
-docker, then you can build your own docker image which contains:
+If you do not have a JupyterHub instance available, then you can build and your
+own docker image locally, which contains:
 * JupyterLab
-* Tomorec kernel
-* Tomorec notebook
+* Tomorec analysis kernel
 Then you will be able to run JupyterLab on your laptop.
 
 
@@ -145,14 +143,19 @@ Also, add yourself to the docker group, as described here:
 A makefile has been included in this repository inorder to simplify somewhat
 the procedure for building the Tomorec docker image.
 
+![makefile-output](screenshots/makefile-output.png)
+
+
 The images here are based on the official
 [Juptyer Docker Images](https://github.com/jupyter/docker-stacks), and have
 been modified slightly so that when saving files within a running docker
 container, the files will be saved on to your laptop will have the correct
 permissions.
 
-First, build the base-notebook image:
+First, go into your local copy of the repository and build the base-notebook
+image:
 ```bash
+cd tomorec/
 make build-base-notebook
 ```
 
@@ -218,13 +221,14 @@ automatically.
 
 ![run-all-cells](screenshots/run-all-cells.png)
 
-It should take less than 10 minutes to complete, and in the end you should have
-an HDF5 file that's around 15 GB:
+It should take less than 10 minutes to complete (depending on computing
+resources available), and in the end you should have an HDF5 file that's around
+15 GB:
 ```bash
 tomorec/data/hdf5-conversion/
 └── h11913_4_3.h5
 ```
-Ignore any warnings concerning depreceated numpy syntax.
+Ignore any warnings concerning deprecated numpy syntax.
 
 
 # 5 - RUN ANALYSIS NOTEBOOK
@@ -247,8 +251,9 @@ and then "Run > Run All Cells."  The analysis currently requires a large
 amount of memory, if it is too much for the computer you are using, the
 analysis will fail.
 
-If everything went well, after 5 to 10 minnutes (depending on computing
-resources available) you will see a figure in the end that looks like this:
+If everything went well, after less than 5 minutes (again, depending on
+computing resources available) you will see a figure in the end that looks like
+this:
 
 ![final-figure](screenshots/final-figure.png)
 
@@ -258,6 +263,9 @@ in the above example was:
 tomorec/data/
 └── analysis-output/gridrec_alpha15e-5.tiff
 ```
+
+If running this analysis script locally via the docker image, this image
+is saved onto your local machine.
 
 Your results may be compared with the original running of this data analysis
 here:

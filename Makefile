@@ -107,7 +107,7 @@ run-tomorec-image: ## Start a docker container using tomorec image
 	$(print_line_blue)
 
 	docker run -it --rm -p 8888:8888 \
-		-v "$${PWD}":/home/$$USER/work \
+		-v "$${PWD}":/home/$$USER/tomorec \
 		--user $(id -u):$(id -g) \
 		--env MEM_LIMIT=7516192768 \
 		tomorec:local
