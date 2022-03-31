@@ -1,12 +1,10 @@
 # TOMOREC ANALYSIS OVERVIEW
 
-This README contains various recipes for installing a Tomorec Jupyter kernel,
-downloading publically available data, and executing a sample analysis
-Juptyer notebook.
+This README contains recipes on how to run an example Tomography reconstruction
+using publically available data.
 
-This can be done with using either a JuptyerHub service, or it can be done
-locally by building a docker image that contains JupyterLab and run on your
-local machine.
+This is done within a JuptyerLab session running in either a JuptyerHub
+service or running a lcoal computer using a docker container.
 
 The documentation below consists of several sections:
 - [1 - CLONE THIS REPOSITORY](#1---clone-this-repository)
@@ -61,7 +59,7 @@ the command and only missing files will be downloaded.
 # 3 - CREATE TOMOREC KERNEL
 There are two ways to accomplish the creation of the Tomorec analysis kernel:
 * Either create it using conda in a running JuptyerLab session [section 3.1](#31---create-tomorec-kernel-in-jupyterlab-session)
-* Or build a docker iamge that contains JupyterLab and the Tomorec kernel
+* Or build a docker image that contains JupyterLab and the Tomorec kernel
   and run this locally [seciotn 3.2](#32---create-tomorec-kernel-and-docker-image)
 
 
