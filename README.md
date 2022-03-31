@@ -1,10 +1,10 @@
 # TOMOREC ANALYSIS OVERVIEW
 
 This README contains recipes on how to run an example Tomography reconstruction
-using publically available data.
+using publicly available data.
 
-This is done within a JuptyerLab session running in either a JuptyerHub
-service or running a lcoal computer using a docker container.
+This is done within a JupyterLab session running in either a JupyterHub
+service or running a local computer using a docker container.
 
 The documentation below consists of several sections:
 - [1 - CLONE THIS REPOSITORY](#1---clone-this-repository)
@@ -23,8 +23,8 @@ The documentation below consists of several sections:
 
 
 # 1 - CLONE THIS REPOSITORY
-If you have access to a JupyterHub service, start a JuptyerLab session, then
-open a terminal from the uppper left hand menu "File > New > Terminal".
+If you have access to a JupyterHub service, start a JupyterLab session, then
+open a terminal from the upper left hand menu "File > New > Terminal".
 
 If you do not have access to a JupyterHub service, no problem, you can do
 this locally on your own computer. Open a local terminal.
@@ -43,7 +43,7 @@ repository:
 [data doi url](https://doi.psi.ch/detail/10.16907/d699e1f7-e822-4396-8c64-34ed405f07b7)
 
 The simplest way to do this is probably to download the data into the data/
-folder that exists already in thís repository, as the included Juptyer
+folder that exists already in this repository, as the included Jupyter
 notebooks are by default setup to use that folder:
 ```bash
 cd tomorec/data/
@@ -58,9 +58,9 @@ the command and only missing files will be downloaded.
 
 # 3 - CREATE TOMOREC KERNEL
 There are two ways to accomplish the creation of the Tomorec analysis kernel:
-* Either create it using conda in a running JuptyerLab session [section 3.1](#31---create-tomorec-kernel-in-jupyterlab-session)
+* Either create it using conda in a running JupyterLab session [section 3.1](#31---create-tomorec-kernel-in-jupyterlab-session)
 * Or build a docker image that contains JupyterLab and the Tomorec kernel
-  and run this locally [seciotn 3.2](#32---create-tomorec-kernel-and-docker-image)
+  and run this locally [section 3.2](#32---create-tomorec-kernel-and-docker-image)
 
 
 ## 3.1 - CREATE TOMOREC KERNEL IN JUPYTERLAB SESSION
@@ -72,7 +72,7 @@ If not, then go to the next section titled
 ***CREATE TOMOREC KERNEL AND DOCKER IMAGE***
 
 
-1. Open a terminal in your JuptyerLab session (File > New > Terminal) and go
+1. Open a terminal in your JupyterLab session (File > New > Terminal) and go
    into the Tomorec repository that you have cloned:
 ```bash
 cd tomorec/
@@ -138,14 +138,14 @@ Also, add yourself to the docker group, as described here:
 
 
 ### 3.2.2 - BUILD DOCKER IMAGE
-A makefile has been included in this repository inorder to simplify somewhat
+A makefile has been included in this repository in order to simplify somewhat
 the procedure for building the Tomorec docker image.
 
 ![makefile-output](screenshots/makefile-output.png)
 
 
 The images here are based on the official
-[Juptyer Docker Images](https://github.com/jupyter/docker-stacks), and have
+[Jupyter Docker Images](https://github.com/jupyter/docker-stacks), and have
 been modified slightly so that when saving files within a running docker
 container, the files will be saved on to your laptop will have the correct
 permissions.
@@ -185,7 +185,7 @@ The data you downloaded in an earlier step will be .tif images files.  These
 will need to be converted to the HDF5 file format in order to be used in the
 included Tomorec analysis notebook.
 
-In the JupyterLab file browser (either running via JuptyerHub or your own
+In the JupyterLab file browser (either running via JupyterHub or your own
 docker image), navigate to where you have cloned this repository and double
 click on the notebook for converting the .tif files to a single HDF5 file
 included in this repository:
@@ -200,7 +200,7 @@ notebook, and select the "Tomorec Kernel" in the menu that appears.
 
 
 Change the following directory names to match what you have, or leave them
-as they are if you downloaded the data into the data/ direcotry in this
+as they are if you downloaded the data into the data/ directory in this
 repository:
 ```bash
 dirname = '../data/'
@@ -255,7 +255,7 @@ this:
 
 ![final-figure](screenshots/final-figure.png)
 
-This final figure will be saved as a tiff file in the specifed location, which
+This final figure will be saved as a tiff file in the specified location, which
 in the above example was:
 ```bash
 tomorec/data/
