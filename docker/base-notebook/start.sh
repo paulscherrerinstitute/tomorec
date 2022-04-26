@@ -199,19 +199,24 @@ if [ "$(id -u)" == 0 ] ; then
 # The container didn't start as the root user, so we will have to act as the
 # user we started as.
 else
+    echo "Container started as $(id -u)" 
+    echo "GRANT_SUDO: ${GRANT_SUDO}" 
+        
     # Warn about misconfiguration of: granting sudo rights
     if [[ "${GRANT_SUDO}" == "1" || "${GRANT_SUDO}" == "yes" ]]; then
         _log "WARNING: container must be started as root to grant sudo permissions!"
     fi
 
-    JOVYAN_UID="$(id -u jovyan 2>/dev/null)"  # The default UID for the jovyan user
-    JOVYAN_GID="$(id -g jovyan 2>/dev/null)"  # The default GID for the jovyan user
+    # JOVYAN_UID="$(id -u jovyan 2>/dev/null)"  # The default UID for the jovyan user
+    # JOVYAN_GID="$(id -g jovyan 2>/dev/null)"  # The default GID for the jovyan user
 
-    # Attempt to ensure the user uid we currently run as has a named entry in
-    # the /etc/passwd file, as it avoids software crashing on hard assumptions
-    # on such entry. Writing to the /etc/passwd was allowed for the root group
-    # from the Dockerfile during build.
-    #
+    # # Attempt to ensure the user uid we currently run as has a named entry in
+    # # the /etc/passwd file, as it avoids software crashing on hard assumptions
+    # # on such entry. Writing to the /etc/passwd was allowed for the root group
+    # # from the Dockerfile during build.
+    # #
+
+    echo "Container started as $(id -u)" 
     # ref: https://github.com/jupyter/docker-stacks/issues/552
     if ! whoami &> /dev/null; then
         _log "There is no entry in /etc/passwd for our UID=$(id -u). Attempting to fix..."

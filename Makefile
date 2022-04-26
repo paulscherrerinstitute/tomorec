@@ -70,13 +70,21 @@ build-base-notebook: ## Use docker to build tomorec image
 	@printf "\n"
 	$(print_line_blue)
 
+	OUTPUT_IMAGE_NAME=tomorec-analysis/jupyter/base-notebook:local
+
 	docker build \
-		--build-arg NB_USER=$$USER \
- 		--build-arg NB_UID=$$(id -u) \
- 		--build-arg NB_GID=$$(id -g) \
-		-t base-notebook:local \
+		-t $$OUTPUT_IMAGE_NAME \
 		-f docker/base-notebook/Dockerfile .
 	
+	$(print_line_blue)
+
+	printf "$(BLUE) Hopefully created docker image!: "
+	printf "$(CYAN)$$OUTPUT_IMAGE_NAME$(NC)\n"
+	printf "$(BLUE) Listing local images with that name: $(NC)\n"
+
+	# List images                                                               
+	docker image ls --filter=reference="$$OUTPUT_IMAGE_NAME"
+
 	$(print_line_blue)
 	printf "\n"
 
@@ -85,13 +93,23 @@ build-tomorec-notebook: ## Use docker to build tomorec image
 	@printf "\n"
 	$(print_line_blue)
 
+	OUTPUT_IMAGE_NAME=tomorec-analysis/jupyter/tomorec-notebook:local
+	BASE_IMAGE_NAME=tomorec-analysis/jupyter/base-notebook:local
+
 	docker build \
-		--build-arg NB_USER=$$USER \
- 		--build-arg NB_UID=$$(id -u) \
- 		--build-arg NB_GID=$$(id -g) \
-		-t tomorec:local \
+		-t $$OUTPUT_IMAGE_NAME \
+		--build-arg BASE_IMAGE_NAME=$$BASE_IMAGE_NAME \
 		-f docker/tomorec-notebook/Dockerfile .
 	
+	$(print_line_blue)
+
+	printf "$(BLUE) Hopefully created docker image!: "
+	printf "$(CYAN)$$OUTPUT_IMAGE_NAME$(NC)\n"
+	printf "$(BLUE) Listing local images with that name: $(NC)\n"
+
+	# List images                                                               
+	docker image ls --filter=reference="$$OUTPUT_IMAGE_NAME"
+
 	$(print_line_blue)
 	printf "\n"
 
@@ -100,17 +118,25 @@ build-tomorec-notebook: ## Use docker to build tomorec image
 ##@ Run Images - For local use, with docker
 ###############################################################################
 
-.PHONY: run-tomorec-image 
+.PHONY: run-tomorec-image
 
 run-tomorec-image: ## Start a docker container using tomorec image
 	@printf "\n"
 	$(print_line_blue)
 
+	IMAGE_NAME=tomorec-analysis/jupyter/tomorec-notebook:local
+
 	docker run -it --rm -p 8888:8888 \
-		-v "$${PWD}":/home/$$USER/tomorec \
-		--user $(id -u):$(id -g) \
+		--user $$(id -u):$$(id -g) \
+		--group-add 100 \
+		-v "$${PWD}":/home/jovyan/tomorec \
+		-v /etc/passwd:/etc/passwd:ro \
+		-v /etc/group:/etc/group:ro \
+ 		--env NB_USER=$$USER \
+ 		--env NB_UID=$$(id -u) \
+ 		--env NB_GID=$$(id -g) \
 		--env MEM_LIMIT=7516192768 \
-		tomorec:local
+		$$IMAGE_NAME
 
 	$(print_line_blue)
 	printf "\n"

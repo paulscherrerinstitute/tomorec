@@ -1,6 +1,6 @@
 # Start from the base-notebook image
-ARG BASE_CONTAINER=base-notebook:local
-FROM $BASE_CONTAINER
+ARG BASE_IMAGE_NAME=unspecified
+FROM $BASE_IMAGE_NAME
 
 # root user for installing apt packages
 USER root
@@ -13,9 +13,9 @@ RUN apt-get update --yes \
  && rm -rf /var/lib/apt/lists/*
 
 # Default user for installing conda packages
-ARG NB_USER=${NB_USER}
-ARG NB_UID=${NB_UID}
-ARG NB_GID=${NB_GID}
+ARG NB_USER="jovyan"
+ARG NB_UID="1000"
+ARG NB_GID="100"
 USER ${NB_UID}
 
 # Tomorec conda environment creation
