@@ -58,9 +58,11 @@ the command and only missing files will be downloaded.
 
 # 3 - CREATE TOMOREC KERNEL
 There are two ways to accomplish the creation of the Tomorec analysis kernel:
-* Either create it using conda in a running JupyterLab session [section 3.1](#31---create-tomorec-kernel-in-jupyterlab-session)
+* Either create it using conda in a running JupyterLab session - see
+  [section 3.1](#31---create-tomorec-kernel-in-jupyterlab-session)
 * Or build a docker image that contains JupyterLab and the Tomorec kernel
-  and run this locally [section 3.2](#32---create-tomorec-kernel-and-docker-image)
+  and run this locally - see
+  [section 3.2](#32---create-tomorec-kernel-and-docker-image)
 
 
 ## 3.1 - CREATE TOMOREC KERNEL IN JUPYTERLAB SESSION
@@ -68,8 +70,8 @@ If you already have a JupyterHub instance running into which you can
 install your own kernel, then here is a recipe for creating a Tomorec kernel
 in which you can run the Tomorec notebook included in this repository.
 
-If not, then go to the next section titled
-***CREATE TOMOREC KERNEL AND DOCKER IMAGE***
+If not, then go to the next section -
+[section 3.2](#32---create-tomorec-kernel-and-docker-image)
 
 
 1. Open a terminal in your JupyterLab session (File > New > Terminal) and go
@@ -124,6 +126,7 @@ If you do not have a JupyterHub instance available, then you can build and your
 own docker image locally, which contains:
 * JupyterLab
 * Tomorec analysis kernel
+
 Then you will be able to run JupyterLab on your laptop.
 
 

@@ -8,11 +8,12 @@ ARG ROOT_CONTAINER=ubuntu:focal-20220113
 FROM $ROOT_CONTAINER
 
 LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
-ARG NB_USER=${NB_USER}
-ARG NB_UID=${NB_UID}
-ARG NB_GID=${NB_GID}
+ARG NB_USER="jovyan"
+ARG NB_UID="1000"
+ARG NB_GID="100"
 
-# Fix DL4006
+# Fix: https://github.com/hadolint/hadolint/wiki/DL4006
+# Fix: https://github.com/koalaman/shellcheck/wiki/SC3014
 # SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 USER root
@@ -62,8 +63,8 @@ ENV PATH="${CONDA_DIR}/bin:${PATH}" \
 COPY docker/base-notebook/fix-permissions /usr/local/bin/fix-permissions
 RUN chmod a+rx /usr/local/bin/fix-permissions
 
-# Enable prompt color in the skeleton .bashrc before creating the default
-# NB_USER hadolint ignore=SC2016
+# Enable prompt color in the skeleton .bashrc before creating the default NB_USER
+# hadolint ignore=SC2016
 RUN sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashrc && \
    # Add call to conda init script see https://stackoverflow.com/a/58081608/4413446
    echo 'eval "$(command conda shell.bash hook 2> /dev/null)"' >> /etc/skel/.bashrc
@@ -72,12 +73,10 @@ RUN sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashr
 # and make sure these dirs are writable by the `users` group.
 RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     sed -i.bak -e 's/^%admin/#%admin/' /etc/sudoers && \
-    sed -i.bak -e 's/^%sudo/#%sudo/' /etc/sudoers
-RUN addgroup --gid ${NB_GID} ${NB_USER} \
- && adduser --disabled-password --gecos '' --uid ${NB_UID} \
-    --gid ${NB_GID} ${NB_USER} 
-RUN mkdir -p "${CONDA_DIR}" 
-RUN chown "${NB_USER}:${NB_GID}" "${CONDA_DIR}" && \
+    sed -i.bak -e 's/^%sudo/#%sudo/' /etc/sudoers && \
+    useradd -l -m -s /bin/bash -N -u "${NB_UID}" "${NB_USER}" && \
+    mkdir -p "${CONDA_DIR}" && \
+    chown "${NB_USER}:${NB_GID}" "${CONDA_DIR}" && \
     chmod g+w /etc/passwd && \
     fix-permissions "${HOME}" && \
     fix-permissions "${CONDA_DIR}"
@@ -163,7 +162,8 @@ CMD ["start-notebook.sh"]
 # Copy local files as late as possible to avoid cache busting
 COPY docker/base-notebook/start.sh docker/base-notebook/start-notebook.sh \
     docker/base-notebook/start-singleuser.sh /usr/local/bin/
-# Currently need to have both jupyter_notebook_config and jupyter_server_config to support classic and lab
+# Currently need to have both jupyter_notebook_config and jupyter_server_config
+# to support classic and lab
 COPY docker/base-notebook/jupyter_server_config.py /etc/jupyter/
 
 # Fix permissions on /etc/jupyter as root
@@ -173,6 +173,12 @@ USER root
 RUN sed -re "s/c.ServerApp/c.NotebookApp/g" \
     /etc/jupyter/jupyter_server_config.py > /etc/jupyter/jupyter_notebook_config.py && \
     fix-permissions /etc/jupyter/
+
+# HEALTHCHECK documentation: https://docs.docker.com/engine/reference/builder/#healthcheck
+# This healtcheck works well for `lab`, `notebook`, `nbclassic`, `server` and `retro` jupyter commands
+# https://github.com/jupyter/docker-stacks/issues/915#issuecomment-1068528799
+HEALTHCHECK  --interval=15s --timeout=3s --start-period=5s --retries=3 \
+    CMD wget -O- --no-verbose --tries=1 http://localhost:8888/api || exit 1
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER ${NB_UID}
